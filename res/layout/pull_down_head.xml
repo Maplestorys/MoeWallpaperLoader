@@ -58,7 +58,7 @@
 
                 android:layout_gravity="center"
 
-                android:src="@drawable/menu_lrc_onfocus" />
+                android:src="@drawable/arr" />
 
 
 

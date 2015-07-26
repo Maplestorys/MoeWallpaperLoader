@@ -18,6 +18,8 @@ import com.maplestory.moewallpaperloader.view.ChangeColorIconWithTextView;
 
 
 
+import com.maplestory.moewallpaperloader.view.TitleView;
+
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -79,6 +81,7 @@ public class MoeWallpaperLoader extends FragmentActivity implements OnPageChange
     private Handler hd,fileHandler;
     private String IMAGE_PATH="/sdcard/WallpapersDownloader";
 	public NotificationManager mNotificationManager;
+	private TitleView titleView;
 	private final static String TAG = "CustomActivity";
 	
 	/** 按钮：显示自定义通知 */
@@ -149,6 +152,7 @@ public class MoeWallpaperLoader extends FragmentActivity implements OnPageChange
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_moe_wallpaper_loader);  
         mViewPager = (ViewPager) findViewById(R.id.id_viewpager);  
+        titleView = (TitleView) findViewById(R.id.title_view);
         wallpaperManager = WallpaperManager.getInstance(getApplicationContext());
         initDatas();  
         initStorageFolder();
@@ -313,16 +317,16 @@ public class MoeWallpaperLoader extends FragmentActivity implements OnPageChange
 
 		//点击的事件处理
 		Intent buttonIntent = new Intent(ACTION_BUTTON);
-		/* 上一首按钮 */
+		/* 上一张按钮 */
 		buttonIntent.putExtra(INTENT_BUTTONID_TAG, BUTTON_PREV_ID);
 		//这里加了广播，所及INTENT的必须用getBroadcast方法
 		PendingIntent intent_prev = PendingIntent.getBroadcast(this, 1, buttonIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 		mRemoteViews.setOnClickPendingIntent(R.id.btn_custom_prev, intent_prev);
-		/* 播放/暂停  按钮 */
+		/* 开始/暂停  按钮 */
 		buttonIntent.putExtra(INTENT_BUTTONID_TAG, BUTTON_PALY_ID);
 		PendingIntent intent_paly = PendingIntent.getBroadcast(this, 2, buttonIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 		mRemoteViews.setOnClickPendingIntent(R.id.btn_custom_play, intent_paly);
-		/* 下一首 按钮  */
+		/* 下一张 按钮  */
 		buttonIntent.putExtra(INTENT_BUTTONID_TAG, BUTTON_NEXT_ID);
 		PendingIntent intent_next = PendingIntent.getBroadcast(this, 3, buttonIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 		mRemoteViews.setOnClickPendingIntent(R.id.btn_custom_next, intent_next);
@@ -336,7 +340,7 @@ public class MoeWallpaperLoader extends FragmentActivity implements OnPageChange
 				.setTicker("MoeWallpaperLoader")
 				.setPriority(Notification.PRIORITY_DEFAULT)// 设置该通知优先级
 				.setOngoing(true)
-				.setSmallIcon(R.drawable.menu_lrc_offfocus);
+				.setSmallIcon(R.drawable.pic_image);
 		Notification notify = mBuilder.build();
 		notify.flags = Notification.FLAG_ONGOING_EVENT;
 		//会报错，还在找解决思路

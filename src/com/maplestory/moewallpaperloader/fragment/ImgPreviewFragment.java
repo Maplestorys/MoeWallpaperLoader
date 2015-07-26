@@ -163,9 +163,6 @@ public class ImgPreviewFragment extends Fragment implements OnPullDownListener,O
 	 public void onRefresh() {
 		 
 		 new Thread(new Runnable() {
-			 
-			 	
-
 
 			 @Override
 			 public void run() {

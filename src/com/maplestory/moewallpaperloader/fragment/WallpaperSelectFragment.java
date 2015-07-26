@@ -20,9 +20,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -78,6 +80,17 @@ public class WallpaperSelectFragment extends Fragment{
 		listView = (GridView) rootView.findViewById(R.id.gridview);
 		ImageAdapter ia = new ImageAdapter();
 		((GridView) listView).setAdapter(ia);			// Ìî³äÊý¾Ý
+		listView.setOnItemLongClickListener(new OnItemLongClickListener() {
+
+			@Override
+			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+					int arg2, long arg3) {
+				// TODO Auto-generated method stub
+				System.out.println("on long click");
+				return true;
+			}
+		});
+		
 		listView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

@@ -1019,7 +1019,7 @@ public class ScrollOverListView extends ListView implements OnScrollListener {
 
  arrowImageView.clearAnimation();
 
- arrowImageView.setImageResource(R.drawable.menu_music_onfocus);
+ arrowImageView.setImageResource(R.drawable.pic_image);
 
  tipsTextview.setText("ÏÂÀ­Ë¢ÐÂ");
 

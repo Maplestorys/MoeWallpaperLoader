@@ -107,14 +107,25 @@ public class ChangeColorIconWithTextView extends View
 	{
 		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
+//		int bitmapWidth = Math.min(getMeasuredWidth() - getPaddingLeft()
+//				- getPaddingRight(), getMeasuredHeight() - getPaddingTop()
+//				- getPaddingBottom() - mTextBound.height());
+//
+//		int left = getMeasuredWidth() / 2 - bitmapWidth / 2;
+//		int top = (getMeasuredHeight() - mTextBound.height()) / 2 - bitmapWidth
+//				/ 2;
+//		// 设置icon的绘制范围
+//		mIconRect = new Rect(left, top, left + bitmapWidth, top + bitmapWidth);
+		
+		
+		
 		// 得到绘制icon的宽
 		int bitmapWidth = Math.min(getMeasuredWidth() - getPaddingLeft()
-				- getPaddingRight(), getMeasuredHeight() - getPaddingTop()
-				- getPaddingBottom() - mTextBound.height());
+				- getPaddingRight()- mTextBound.width(), getMeasuredHeight() - getPaddingTop()
+				- getPaddingBottom() );
 
-		int left = getMeasuredWidth() / 2 - bitmapWidth / 2;
-		int top = (getMeasuredHeight() - mTextBound.height()) / 2 - bitmapWidth
-				/ 2;
+		int left = ((getMeasuredWidth() - mTextBound.width()) - bitmapWidth)/2;
+		int top = (getMeasuredHeight() - bitmapWidth)/2;
 		// 设置icon的绘制范围
 		mIconRect = new Rect(left, top, left + bitmapWidth, top + bitmapWidth);
 
@@ -153,18 +164,18 @@ public class ChangeColorIconWithTextView extends View
 		mTextPaint.setTextSize(mTextSize);
 		mTextPaint.setColor(0xff333333);
 		mTextPaint.setAlpha(255 - alpha);
-		canvas.drawText(mText, mIconRect.left + mIconRect.width() / 2
-				- mTextBound.width() / 2,
-				mIconRect.bottom + mTextBound.height(), mTextPaint);
+		canvas.drawText(mText, mIconRect.right
+				,
+				mIconRect.bottom, mTextPaint);
 	}
 	
 	private void drawTargetText(Canvas canvas, int alpha)
 	{
 		mTextPaint.setColor(mColor);
 		mTextPaint.setAlpha(alpha);
-		canvas.drawText(mText, mIconRect.left + mIconRect.width() / 2
-				- mTextBound.width() / 2,
-				mIconRect.bottom + mTextBound.height(), mTextPaint);
+		canvas.drawText(mText, mIconRect.right
+				,
+				mIconRect.bottom, mTextPaint);
 		
 	}
 	public void setIconAlpha(float alpha)
