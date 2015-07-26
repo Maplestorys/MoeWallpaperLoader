@@ -15,6 +15,7 @@
         android:id="@+id/id_viewpager"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+
         android:layout_above="@+id/indicator"
         android:layout_below="@id/title_view" >
 
@@ -32,6 +33,7 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:padding="5dp"
+
             zhy:icon="@drawable/net"
             zhy:text="在线预览"
             zhy:text_size="14sp" />
@@ -41,6 +43,7 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:padding="5dp"
+
             zhy:icon="@drawable/local"
             zhy:text="本地图库"
             zhy:text_size="14sp" />
