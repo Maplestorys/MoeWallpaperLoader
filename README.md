@@ -1,14 +1,14 @@
 # MoeWallpaperLoader
-moeWallpaperLoader \n
-An android application that can help you download anime images from konachan or yande and change your wallpaper regularly \n
-Screenshots \ n
-sample image preview \n
+moeWallpaperLoader <br>
+An android application that can help you download anime images from konachan or yande and change your wallpaper regularly <br>
+Screenshots <br>
+sample image preview <br>
 ![image](https://github.com/Maplestorys/MoeWallpaperLoader/blob/master/screen/device-2015-07-26-190746.png)
-local image selector \n
+local image selector <br>
 ![image](https://github.com/Maplestorys/MoeWallpaperLoader/blob/master/screen/device-2015-07-26-190813.png)
-wallpaper change notification \n
+wallpaper change notification <br>
 ![image](https://github.com/Maplestorys/MoeWallpaperLoader/blob/master/screen/device-2015-07-26-190854.png)
-after change the wallpaper \n
+after change the wallpaper<br>
 ![image](https://github.com/Maplestorys/MoeWallpaperLoader/blob/master/screen/device-2015-07-26-190912.png)
-clear image preview and image detail popupwindow \n
+clear image preview and image detail popupwindow <br>
 ![image](https://github.com/Maplestorys/MoeWallpaperLoader/blob/master/screen/device-2015-07-26-231220.png)
