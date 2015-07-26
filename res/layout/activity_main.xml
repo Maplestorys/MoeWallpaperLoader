@@ -13,6 +13,7 @@
     <com.maplestory.moewallpaperloader.view.MatrixImageView
         android:id="@+id/image_loader"
         android:layout_width="fill_parent"
+        android:scaleType="fitXY"
         android:layout_height="450dp" />
 
 </FrameLayout>
