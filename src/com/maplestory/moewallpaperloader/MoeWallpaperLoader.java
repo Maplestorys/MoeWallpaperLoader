@@ -1,25 +1,12 @@
 package com.maplestory.moewallpaperloader;
 
-
-import com.example.notifications.tools.BaseTools;
 import com.maplestory.moewallpaperloader.fragment.TabFragment;
 import com.maplestory.moewallpaperloader.fragment.ImgPreviewFragment;
 import com.maplestory.moewallpaperloader.fragment.WallpaperSelectFragment;
 import com.maplestory.moewallpaperloader.utils.Item;
 import com.maplestory.moewallpaperloader.utils.ItemAdapter;
 import com.maplestory.moewallpaperloader.view.ChangeColorIconWithTextView;
-
-
-
-
-
-
-
-
-
-
 import com.maplestory.moewallpaperloader.view.TitleView;
-
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -28,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-
 import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationManager;

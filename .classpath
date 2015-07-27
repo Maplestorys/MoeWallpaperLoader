@@ -6,7 +6,5 @@
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry kind="lib" path="libs/universal-image-loader-1.8.6-with-sources.jar"/>
-	<classpathentry kind="src" path="/Notifications(通知栏学习)"/>
-	<classpathentry kind="lib" path="D:/Android/Android/sdk/platforms/android-19/android.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
