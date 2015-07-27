@@ -139,6 +139,22 @@ public class MoeWallpaperLoader extends FragmentActivity implements OnPageChange
         setContentView(R.layout.activity_moe_wallpaper_loader);  
         mViewPager = (ViewPager) findViewById(R.id.id_viewpager);  
         titleView = (TitleView) findViewById(R.id.title_view);
+        titleView.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				switch(arg0.getId()) {
+				case(R.id.search_btn):
+					System.out.println("search btn pressed");
+					break;
+				case(R.id.preference_btn):
+					System.out.println("config btn pressed");
+					break;
+				}
+				
+			}
+		});
         wallpaperManager = WallpaperManager.getInstance(getApplicationContext());
         initDatas();  
         initStorageFolder();

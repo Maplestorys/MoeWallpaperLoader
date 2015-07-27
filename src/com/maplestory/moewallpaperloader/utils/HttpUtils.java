@@ -105,4 +105,14 @@ public class HttpUtils {
 		return imageProfile;
 	}
 	
+	public static ArrayList<ImageProfile> loadDefaultImages(int pageNumber)
+	{
+		return null;
+		
+	}
+	
+	public static ArrayList<ImageProfile> loadTagImages(int pageNumber,String tags) {
+		return null;
+	}
+	
 }
