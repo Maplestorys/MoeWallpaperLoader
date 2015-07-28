@@ -1,5 +1,7 @@
 package com.maplestory.moewallpaperloader.utils;
 
+import org.junit.Test;
+
 public class siteAddressGen {
 
 	public siteAddressGen() {
@@ -14,17 +16,10 @@ public class siteAddressGen {
 	public static String getSiteAddress(int pageNum) {
 		return siteBaseAddress + sitePageAddress+pageNum+siteTagAddress;
 	}
-	
-	public static String getSiteAddress(int pageNum, String[] tags) {
+
+	public static String getSiteAddress(int pageNum, String tags) {
 		String result = siteBaseAddress + sitePageAddress + pageNum + siteTagAddress ;
-		if(tags.length==1){
-			result+=tags[0];
-		}else{
-			result+=tags[0];
-			for(int i =1; i <tags.length;i++) {
-				result +="+" +  tags[i];
-			}
-		}
+		result +="+" +  tags;
 		return result;
 	}
 }

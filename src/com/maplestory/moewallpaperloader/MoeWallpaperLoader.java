@@ -1,5 +1,6 @@
 package com.maplestory.moewallpaperloader;
 
+import com.maplestory.moewallpaperloader.fragment.ImgPreviewFragment.searchCallback;
 import com.maplestory.moewallpaperloader.fragment.TabFragment;
 import com.maplestory.moewallpaperloader.fragment.ImgPreviewFragment;
 import com.maplestory.moewallpaperloader.fragment.WallpaperSelectFragment;
@@ -57,7 +58,7 @@ import android.widget.Button;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
-public class MoeWallpaperLoader extends FragmentActivity implements OnPageChangeListener,OnClickListener {
+public class MoeWallpaperLoader extends FragmentActivity implements OnPageChangeListener,OnClickListener,searchCallback {
 	private  WallpaperManager wallpaperManager ;
 	private ViewPager mViewPager;  
     private List<Fragment> mTabs = new ArrayList<Fragment>();  
@@ -69,7 +70,7 @@ public class MoeWallpaperLoader extends FragmentActivity implements OnPageChange
 	public NotificationManager mNotificationManager;
 	private TitleView titleView;
 	private final static String TAG = "CustomActivity";
-	
+	private Fragment imgPreview = null;
 	/** 按钮：显示自定义通知 */
 	private Button btn_show_custom;
 	/** 按钮：显示自定义带按钮的通知 */
@@ -92,7 +93,15 @@ public class MoeWallpaperLoader extends FragmentActivity implements OnPageChange
 	private List<String> imagePaths = new ArrayList();;
 	private int totalImage ;
 	private int currentImage = 0;
-
+	private String tags="";
+	private Handler FragmentUIHandler = null;
+	public void setUIHandler(Handler handler){
+		this.FragmentUIHandler = handler;
+	}
+	public String getTags(){
+		return this.tags;
+	}
+	
     private void initFile(){
 		 File f = new File(IMAGE_PATH);  
          File[] files = f.listFiles();
@@ -139,6 +148,15 @@ public class MoeWallpaperLoader extends FragmentActivity implements OnPageChange
         setContentView(R.layout.activity_moe_wallpaper_loader);  
         mViewPager = (ViewPager) findViewById(R.id.id_viewpager);  
         titleView = (TitleView) findViewById(R.id.title_view);
+        wallpaperManager = WallpaperManager.getInstance(getApplicationContext());
+        initDatas();  
+        initStorageFolder();
+        initService();
+        initFile();
+        initButtonReceiver();
+        showButtonNotify();
+        mViewPager.setAdapter(mAdapter);  
+        mViewPager.setOnPageChangeListener(this);  
         titleView.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -147,6 +165,9 @@ public class MoeWallpaperLoader extends FragmentActivity implements OnPageChange
 				switch(arg0.getId()) {
 				case(R.id.search_btn):
 					System.out.println("search btn pressed");
+					tags = titleView.getEditTextValue();
+					Message msg= new Message();
+					FragmentUIHandler.sendMessage(msg);
 					break;
 				case(R.id.preference_btn):
 					System.out.println("config btn pressed");
@@ -155,22 +176,13 @@ public class MoeWallpaperLoader extends FragmentActivity implements OnPageChange
 				
 			}
 		});
-        wallpaperManager = WallpaperManager.getInstance(getApplicationContext());
-        initDatas();  
-        initStorageFolder();
-        initService();
-        initFile();
-        initButtonReceiver();
-        showButtonNotify();
 
-        mViewPager.setAdapter(mAdapter);  
-        mViewPager.setOnPageChangeListener(this);  
     }  
   
     private void initDatas()  
     {  
   
-        Fragment imgPreview = new ImgPreviewFragment();
+        imgPreview = new ImgPreviewFragment();
         mTabs.add(imgPreview);
         Fragment WallpaperSelectFragment = new WallpaperSelectFragment();
         fileHandler = (Handler)((WallpaperSelectFragment) WallpaperSelectFragment).getHandler();
@@ -449,6 +461,12 @@ public class MoeWallpaperLoader extends FragmentActivity implements OnPageChange
 	public PendingIntent getDefalutIntent(int flags){
 		PendingIntent pendingIntent= PendingIntent.getActivity(this, 1, new Intent(), flags);
 		return pendingIntent;
+	}
+
+	@Override
+	public void search() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 

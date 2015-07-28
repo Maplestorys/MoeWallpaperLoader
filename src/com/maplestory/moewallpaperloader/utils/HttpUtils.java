@@ -15,6 +15,7 @@ import java.util.regex.Pattern;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.junit.Test;
 
 
 
@@ -106,13 +107,28 @@ public class HttpUtils {
 	}
 	
 	public static ArrayList<ImageProfile> loadDefaultImages(int pageNumber)
-	{
-		return null;
-		
+	{	
+		String htmlResult = siteAddressGen.getSiteAddress(pageNumber);
+		ArrayList<ImageProfile> ip = getNewImageValues(htmlResult);
+		if(ip.size() == 0){
+			return null;
+		}else {
+			return ip;
+		}
 	}
 	
 	public static ArrayList<ImageProfile> loadTagImages(int pageNumber,String tags) {
-		return null;
+		String htmlResult = siteAddressGen.getSiteAddress(pageNumber, tags);
+		ArrayList<ImageProfile> ip = getNewImageValues(htmlResult);
+		if(ip.size() == 0){
+			return null;
+		}else {
+			return ip;
+		}
 	}
+	
+	
+	
+	
 	
 }
