@@ -212,6 +212,7 @@ public class MainActivity extends Activity  {
     @Override
     protected void onDestroy() {
     	// TODO Auto-generated method stub
+    	ivDetails=null;
     	super.onDestroy();
   
     }

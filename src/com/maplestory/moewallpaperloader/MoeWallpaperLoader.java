@@ -57,6 +57,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewConfiguration;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.RemoteViews;
 import android.widget.Toast;
@@ -187,6 +188,7 @@ public class MoeWallpaperLoader extends FragmentActivity implements OnPageChange
 					tags = titleView.getEditTextValue();
 					Message msg= new Message();
 					FragmentUIHandler.sendMessage(msg);
+					((InputMethodManager)getSystemService(INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(MoeWallpaperLoader.this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);   
 					break;
 				case(R.id.preference_btn):
 					System.out.println("config btn pressed");

@@ -68,8 +68,8 @@ public class WallpaperSelectFragment extends Fragment{
 			.showStubImage(R.drawable.ic_stub)
 			.showImageForEmptyUri(R.drawable.ic_empty)
 			.showImageOnFail(R.drawable.ic_error)
-			.cacheInMemory(true)
-			.cacheOnDisc(true)
+			.cacheInMemory(false)
+			.cacheOnDisc(false)
 			.bitmapConfig(Bitmap.Config.RGB_565)	 //设置图片的解码类型
 			.build();
 		initFile();

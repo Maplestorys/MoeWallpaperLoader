@@ -2,13 +2,17 @@ package com.maplestory.moewallpaperloader.fragment;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import com.maplestory.moewallpaperloader.MainActivity;
 import com.maplestory.moewallpaperloader.fragment.ImgPreviewFragment.ItemListAdapter.ViewHolder;
 import com.maplestory.moewallpaperloader.utils.HttpUtils;
 import com.maplestory.moewallpaperloader.utils.ImageProfile;
 import com.maplestory.moewallpaperloader.utils.siteAddressGen;
 import com.maplestory.moewallpaperloader.MoeWallpaperLoader;
+
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -43,6 +47,7 @@ public class ImgPreviewFragment extends Fragment implements OnPullDownListener,
 	public ImgPreviewFragment() {
 		// TODO Auto-generated constructor stub
 	}
+
 	private Parcelable listState = null;
 	private ItemListAdapter itemListAdapter;
 	private DisplayImageOptions options;
@@ -65,7 +70,8 @@ public class ImgPreviewFragment extends Fragment implements OnPullDownListener,
 	private boolean hasTags = false;
 	private String tags;
 	private int maxPageNumber;
-
+	private boolean firstStart = true;
+	private Handler setPositionHandler;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -92,11 +98,10 @@ public class ImgPreviewFragment extends Fragment implements OnPullDownListener,
 				.showImageForEmptyUri(R.drawable.ic_empty) // 设置图片Uri为空或是错误的时候显示的图片
 				.showImageOnFail(R.drawable.ic_error) // 设置图片加载或解码过程中发生错误显示的图片
 				.cacheInMemory(true) // 设置下载的图片是否缓存在内存中
-				.cacheOnDisc(false) // 设置下载的图片是否缓存在SD卡中
+				.cacheOnDisc(true) // 设置下载的图片是否缓存在SD卡中
 				.displayer(new RoundedBitmapDisplayer(20)) // 设置成圆角图片
 				.build();
 		itemListAdapter = new ItemListAdapter();
-
 		mPullDownView.setOnPullDownListener(this);
 		mListView = mPullDownView.getListView();
 		mListView.setOnItemClickListener(this);
@@ -133,9 +138,24 @@ public class ImgPreviewFragment extends Fragment implements OnPullDownListener,
 		}
 
 		((MoeWallpaperLoader) getActivity()).setUIHandler(loadDataHandler);
+		setPositionHandler = new Handler(){
+			@Override
+			public void handleMessage(Message msg) {
+				// TODO Auto-generated method stub
+				super.handleMessage(msg);
+				System.out.println("abcdefagaeafea");
+				SharedPreferences preferences = getActivity().getSharedPreferences(
+						"SCROLL", 0);
+				int scroll = preferences.getInt("ScrollValue", 0);
+				System.out.println("scroll...." + scroll);
+				if (scroll != 0) {
+					mListView.setSelection(scroll);
+					System.out.println("scroll  finsish ");
 
+				} 
+			}
+		};
 	}
-
 	/** 刷新事件接口 这里要注意的是获取更多完 要关闭 刷新的进度条RefreshComplete() **/
 
 	@Override
@@ -348,7 +368,7 @@ public class ImgPreviewFragment extends Fragment implements OnPullDownListener,
 					if (hasTags) {
 						String withTagsHtmlString = siteAddressGen
 								.getSiteAddress(currentPage, tags);
-						System.out.println("hastags"+withTagsHtmlString);
+						System.out.println("hastags" + withTagsHtmlString);
 						String htmlString = HttpUtils
 								.getContent(withTagsHtmlString);
 						al = HttpUtils.getNewImageValues(htmlString);
@@ -499,8 +519,14 @@ public class ImgPreviewFragment extends Fragment implements OnPullDownListener,
 		// TODO Auto-generated method stub
 		super.onSaveInstanceState(outState);
 		System.out.println("listview on saveInstantce state");
+		SharedPreferences preferences = getActivity().getSharedPreferences(
+				"SCROLL", 0);
+		Editor editor = preferences.edit();
+		int scroll = mListView.getFirstVisiblePosition();
+		System.out.println("scroll..........." + scroll);
+		editor.putInt("ScrollValue", scroll);
+		editor.commit();
 	}
-
 
 	@Override
 	public void onViewStateRestored(Bundle savedInstanceState) {
@@ -521,6 +547,11 @@ public class ImgPreviewFragment extends Fragment implements OnPullDownListener,
 		// TODO Auto-generated method stub
 		super.onStart();
 		System.out.println("fragment on start......");
+		if (!firstStart) {
+			setPositionHandler.sendEmptyMessage(0);
+		}else {
+			firstStart =false;
+		}
 
 	}
 
@@ -530,5 +561,5 @@ public class ImgPreviewFragment extends Fragment implements OnPullDownListener,
 		super.onCreate(savedInstanceState);
 		System.out.println("on create");
 	}
-	
+
 }
