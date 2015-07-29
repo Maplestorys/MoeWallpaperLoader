@@ -8,6 +8,7 @@ import com.maplestory.moewallpaperloader.utils.Item;
 import com.maplestory.moewallpaperloader.utils.ItemAdapter;
 import com.maplestory.moewallpaperloader.view.ChangeColorIconWithTextView;
 import com.maplestory.moewallpaperloader.view.TitleView;
+
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -16,7 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+
 import android.app.AlertDialog;
+import android.app.DownloadManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -95,6 +98,12 @@ public class MoeWallpaperLoader extends FragmentActivity implements OnPageChange
 	private int currentImage = 0;
 	private String tags="";
 	private Handler FragmentUIHandler = null;
+	private Handler imagePreviewHandler = null;
+	
+	public void setImagePreviewHandler(Handler handler)
+	{
+		this.imagePreviewHandler = handler;
+	}
 	public void setUIHandler(Handler handler){
 		this.FragmentUIHandler = handler;
 	}
@@ -140,8 +149,18 @@ public class MoeWallpaperLoader extends FragmentActivity implements OnPageChange
     
     @Override  
     protected void onCreate(Bundle savedInstanceState)  
-    {  
-        super.onCreate(savedInstanceState);  
+    {  	
+    	System.out.println("activity on create");
+    	Bundle activityBundle = ((UILApplication)getApplication()).getActivityBundle();
+    	if(activityBundle != null){
+    		super.onCreate(activityBundle);  
+    	}else{
+    		super.onCreate(savedInstanceState);  
+    	}
+    	
+    	
+    	
+    	
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
         	    WindowManager.LayoutParams.FLAG_FULLSCREEN);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -176,16 +195,16 @@ public class MoeWallpaperLoader extends FragmentActivity implements OnPageChange
 				
 			}
 		});
+      
 
     }  
-  
+    
     private void initDatas()  
     {  
   
         imgPreview = new ImgPreviewFragment();
         mTabs.add(imgPreview);
         Fragment WallpaperSelectFragment = new WallpaperSelectFragment();
-        fileHandler = (Handler)((WallpaperSelectFragment) WallpaperSelectFragment).getHandler();
         mTabs.add(WallpaperSelectFragment);
         mAdapter = new FragmentStatePagerAdapter(getSupportFragmentManager())  
         {  
@@ -244,7 +263,9 @@ public class MoeWallpaperLoader extends FragmentActivity implements OnPageChange
         // Log.e("TAG", "position = " + position + " , positionOffset = "  
         // + positionOffset);  
     	initFile();
-    	System.out.println("..................."+position);
+    	if(position==1){
+    		imagePreviewHandler.sendEmptyMessage(0);
+    	}
         if (positionOffset > 0)  
         {  
             ChangeColorIconWithTextView left = mTabIndicator.get(position);  
@@ -306,7 +327,7 @@ public class MoeWallpaperLoader extends FragmentActivity implements OnPageChange
     
 	public void showButtonNotify(){
 		NotificationCompat.Builder mBuilder = new Builder(this);
-		System.out.println("===============================");
+
 		RemoteViews mRemoteViews = new RemoteViews(getPackageName(), R.layout.view_custom_button);
 		Drawable dw = wallpaperManager.getDrawable();
 		BitmapDrawable bd = (BitmapDrawable) dw;
@@ -469,7 +490,13 @@ public class MoeWallpaperLoader extends FragmentActivity implements OnPageChange
 		
 	}
 	
-
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		// TODO Auto-generated method stub
+		super.onSaveInstanceState(outState);
+		System.out.println("save activity state");
+		((UILApplication)getApplication()).setActivityBundle(outState);
+	}
 
 
 	

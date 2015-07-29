@@ -152,9 +152,6 @@ public class MainActivity extends Activity  {
 				case(R.id.btn_save):
 					Log.i("Moeloader", "save");
 				System.out.println(	Environment.getExternalStoragePublicDirectory("/WallpapersDownloader/"));
-		        IntentFilter filter = new IntentFilter( DownloadManager.ACTION_DOWNLOAD_COMPLETE ) ;   
-		        registerReceiver( receiver , filter ) ;   
-
 		        Request request = new Request( Uri.parse( ipTest.getSample_url() ) );
 		        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
 		        request.setMimeType(mimeTypeMap.getMimeTypeFromExtension(ipTest.getSample_url()));
@@ -182,24 +179,7 @@ public class MainActivity extends Activity  {
 		}
     	
     };
-    
 
-    BroadcastReceiver receiver = new BroadcastReceiver() {    
-        @Override     
-        public void onReceive(Context context, Intent intent) { 
-            String action = intent.getAction() ;
-            if( action.equals( DownloadManager.ACTION_DOWNLOAD_COMPLETE  )){
-                System.out.println("complete");
-                
-            }
-
-            if( action.equals( DownloadManager.ACTION_NOTIFICATION_CLICKED )){
-               
-            }
-        }
-
-	
-    };
     
     /**
      * …Ë÷√◊¥Ã¨¿∏÷–œ‘ æNotification
@@ -229,5 +209,10 @@ public class MainActivity extends Activity  {
     }
     
     
-    
+    @Override
+    protected void onDestroy() {
+    	// TODO Auto-generated method stub
+    	super.onDestroy();
+  
+    }
 }

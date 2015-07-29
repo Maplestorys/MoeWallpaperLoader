@@ -10,11 +10,13 @@ public class siteAddressGen {
 //	private static final String siteBaseAddress = "https://yande.re/post?";
 	private static final String siteBaseAddress = "http://konachan.com/post?";
 	private static final String sitePageAddress = "page=";
-//	private static final String siteTagAddress = "&tags=rating:s";
-	private static final String siteTagAddress = "&tags=";
+	private static final String siteTagAddress = "&tags=rating:s";
+//	private static final String siteTagAddress = "&tags=";
 	
 	public static String getSiteAddress(int pageNum) {
-		return siteBaseAddress + sitePageAddress+pageNum+siteTagAddress;
+		String result = siteBaseAddress + sitePageAddress + pageNum + siteTagAddress ;
+		System.out.println(result);
+		return result;
 	}
 
 	public static String getSiteAddress(int pageNum, String tags) {
@@ -24,6 +26,7 @@ public class siteAddressGen {
 		}else{
 			result +="+" +  tags;
 		}
+		System.out.println(result);
 		return result;
 	}
 }

@@ -10,6 +10,7 @@ import android.annotation.TargetApi;
 import android.app.Application;
 import android.content.Context;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.StrictMode;
 
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
@@ -24,8 +25,25 @@ import com.maplestory.moewallpaperloader.utils.Item;
 public class UILApplication extends Application {
 	
 
+    Bundle ActivityBundle = null;
+    Bundle ImagePreviewFragmentBundle = null;
     
-
+    public void setActivityBundle(Bundle bundle) {
+    	this.ActivityBundle = bundle;
+    }
+    
+    public void setImagePreviewFragmentBundle(Bundle bundle) {
+    	this.ImagePreviewFragmentBundle = bundle;
+    }
+    
+    
+    public Bundle getActivityBundle(){
+    	return this.ActivityBundle;
+    }
+    
+    public Bundle getImagePreviewFragmentBundle() {
+    	return this.ImagePreviewFragmentBundle;
+    }
 	@TargetApi(Build.VERSION_CODES.GINGERBREAD)
 	@SuppressWarnings("unused")
 	@Override

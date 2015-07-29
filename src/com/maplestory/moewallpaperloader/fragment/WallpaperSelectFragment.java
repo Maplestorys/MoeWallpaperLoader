@@ -5,14 +5,20 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.maplestory.moewallpaperloader.MoeWallpaperLoader;
 import com.maplestory.moewallpaperloader.R;
 import com.maplestory.moewallpaperloader.utils.Item;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import android.app.AlertDialog;
+import android.app.DownloadManager;
 import android.app.WallpaperManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -39,8 +45,9 @@ public class WallpaperSelectFragment extends Fragment{
 
 	}
 	
-	public Handler getHandler(){
-		return this.fileHandler;
+
+	public void updateUI() {
+		fileHandler.sendEmptyMessage(0);
 	}
 	private ImageAdapter ia;
 	private static Handler fileHandler ;
@@ -70,9 +77,9 @@ public class WallpaperSelectFragment extends Fragment{
 		final ImageAdapter ia = new ImageAdapter();
 		((GridView) listView).setAdapter(ia);			// Ìî³äÊý¾Ý
 		fileHandler = new Handler()
-		{
+		{	
 			public void handleMessage(android.os.Message msg) {
-			
+			System.out.println("refresh local images");
 			initFile();	
 			ia.notifyDataSetChanged();
 			};
@@ -147,9 +154,34 @@ public class WallpaperSelectFragment extends Fragment{
 				
 			}
 		});
+		BroadcastReceiver receiver = new BroadcastReceiver() {    
+		        @Override     
+		        public void onReceive(Context context, Intent intent) { 
+		            String action = intent.getAction() ;
+		            if( action.equals( DownloadManager.ACTION_DOWNLOAD_COMPLETE  )){
+		                System.out.println("complete.........................");
+		                fileHandler.sendEmptyMessage(0);
+		            }
+
+		            if( action.equals( DownloadManager.ACTION_NOTIFICATION_CLICKED )){
+		               
+		            }
+		        }
+
+			
+		    };
+		  IntentFilter filter = new IntentFilter( DownloadManager.ACTION_DOWNLOAD_COMPLETE ) ;   
+	      getActivity().registerReceiver( receiver , filter ) ; 
+		
+		
+	     ((MoeWallpaperLoader) getActivity()).setImagePreviewHandler(fileHandler);
 		 return rootView;
 	 }
 
+
+	 
+	 
+	 
 		public class ImageAdapter extends BaseAdapter {
 			@Override
 			public int getCount() {
@@ -226,4 +258,6 @@ public class WallpaperSelectFragment extends Fragment{
 	         }  
 	    }
 
+	    
+	    
 }
