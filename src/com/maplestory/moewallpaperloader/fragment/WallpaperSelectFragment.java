@@ -1,5 +1,6 @@
 package com.maplestory.moewallpaperloader.fragment;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,17 +36,7 @@ public class WallpaperSelectFragment extends Fragment{
 
 	public WallpaperSelectFragment() {
 		// TODO Auto-generated constructor stub
-		if (fileHandler == null) {
-			fileHandler = new Handler()
-		{
-			public void handleMessage(android.os.Message msg) {
-			
-			initFile();	
-			ia.notifyDataSetChanged();
-			};
-		};
-		}
-		
+
 	}
 	
 	public Handler getHandler(){
@@ -74,19 +65,39 @@ public class WallpaperSelectFragment extends Fragment{
 			.cacheOnDisc(true)
 			.bitmapConfig(Bitmap.Config.RGB_565)	 //设置图片的解码类型
 			.build();
-
-		 initFile();
-		 	
+		initFile();
 		listView = (GridView) rootView.findViewById(R.id.gridview);
-		ImageAdapter ia = new ImageAdapter();
+		final ImageAdapter ia = new ImageAdapter();
 		((GridView) listView).setAdapter(ia);			// 填充数据
+		fileHandler = new Handler()
+		{
+			public void handleMessage(android.os.Message msg) {
+			
+			initFile();	
+			ia.notifyDataSetChanged();
+			};
+		};
 		listView.setOnItemLongClickListener(new OnItemLongClickListener() {
 
 			@Override
-			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
-					int arg2, long arg3) {
+			public boolean onItemLongClick(AdapterView<?> parent, View view,
+					final int position, long id) {
 				// TODO Auto-generated method stub
 				System.out.println("on long click");
+				new AlertDialog.Builder(getActivity()) 
+				.setTitle("确认删除图片")
+				.setMessage("是否删除该图片")
+				.setPositiveButton("是", new DialogInterface.OnClickListener(){
+					@Override
+					public void onClick(DialogInterface arg0,int arg1) {
+						File deleteImage = new File(imagePaths.get(position));
+						deleteImage.delete();  
+						fileHandler.sendEmptyMessage(0);
+						Toast.makeText(getActivity(), "删除成功", Toast.LENGTH_SHORT).show();  
+				}
+				})
+				.setNegativeButton("否", null)
+				.show();
 				return true;
 			}
 		});
@@ -195,6 +206,8 @@ public class WallpaperSelectFragment extends Fragment{
 		
 	    
 	    private void initFile(){
+	    	 images.clear();
+	    	 imagePaths.clear();
 			 File f = new File(IMAGE_PATH);  
 	         File[] files = f.listFiles();
 	         if(files != null){
